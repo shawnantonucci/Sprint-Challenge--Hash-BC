@@ -19,26 +19,31 @@ def proof_of_work(last_proof):
     - p is the previous proof, and p' is the new proof
     """
 
-    start = timer()
+    first = timer()
 
-    print("Searching for next proof")
     proof = 0
-    #  TODO: Your code here
+    timerStr = str(timer() - first)
+    last_hash = hashlib.sha256(str(last_proof).encode()).hexdigest()
+    print("Searching for next proof")
 
-    print("Proof found: " + str(proof) + " in " + str(timer() - start))
+    while valid_proof(last_hash, proof) is False:
+      proof += random.randint(1, 101)
+
+    print(f"Proof found: {proof} in {(timer() - first)}")
     return proof
 
 
 def valid_proof(last_hash, proof):
-    """
-    Validates the Proof:  Multi-ouroborus:  Do the last six characters of
-    the last hash match the first six characters of the proof?
 
-    IE:  last_hash: ...999123456, new hash 123456888...
-    """
+    proofStr = str(proof)
+    lastHashStr = str(last_hash)
 
-    # TODO: Your code here!
-    pass
+    guessedProof = proofStr.encode()
+    last_hash = lastHashStr
+
+    hashed_proof = hashlib.sha256(guessedProof).hexdigest()
+
+    return hashed_proof[:6] == last_hash[-6:]
 
 
 if __name__ == '__main__':
