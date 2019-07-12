@@ -22,6 +22,19 @@ def get_indices_of_item_weights(weights, length, limit):
             if ht.storage is not None:
                 hash_table_insert(ht, weights[i], i)
 
+        for item in range(1, limit + 1):
+            min = item
+            max = limit - item
+            minTest = hash_table_retrieve(ht, min)
+
+            if minTest is not None:
+                hash_table_remove(ht, min)
+                maxTest = hash_table_retrieve(ht, max)
+
+                if maxTest is not None:
+                    return [maxTest, minTest]
+
+
 def print_answer(answer):
     if answer is None:
         print(str(answer[0] + " " + answer[1]))
