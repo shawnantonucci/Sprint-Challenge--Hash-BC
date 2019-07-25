@@ -9,11 +9,30 @@ from hashtables import (HashTable,
 def get_indices_of_item_weights(weights, length, limit):
     ht = HashTable(16)
 
-    """
-    YOUR CODE HERE
-    """
+    if len(weights) < 2:
+        print("Array is less than 2 indicies")
+        return None
 
-    return None
+    elif len(weights) == 2:
+        if weights[0] + weights[1] == limit:
+            return [1, 0]
+
+    else:
+        for i in range(len(weights)):
+            if ht.storage is not None:
+                hash_table_insert(ht, weights[i], i)
+
+        for item in range(1, limit + 1):
+            min = item
+            max = limit - item
+            minTest = hash_table_retrieve(ht, min)
+
+            if minTest is not None:
+                hash_table_remove(ht, min)
+                maxTest = hash_table_retrieve(ht, max)
+
+                if maxTest is not None:
+                    return [maxTest, minTest]
 
 
 def print_answer(answer):
